@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>핑크아카이브 | 공부하는 마음을 가장 잘 아는 문구</title>
+<meta name="description" content="직접 써 보고, 불편함을 고쳐 만든 공부 문구. 시험·입시·내신을 준비하는 학생과 수험생을 위한 핑크아카이브 단어암기 패드, 트윈링 단어노트.">
+<meta property="og:title" content="핑크아카이브 Pink archive">
+<meta property="og:description" content="직접 써 보고, 불편함을 고쳐 만든 공부 문구">
+<meta property="og:image" content="img/pad.png">
+<link rel="icon" type="image/png" href="img/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<style>
+  /* 첫 화면 */
+  .hero{padding:72px 0 88px}
+  .hero .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .hero h1{font-family:var(--serif);font-size:clamp(30px,4.6vw,48px);line-height:1.35}
+  .hero .intro{color:var(--muted);margin-top:22px;font-size:16.5px}
+  .hero .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+  .hero-img{border-radius:28px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(185,117,138,.55)}
+
+  /* 상품 탭 */
+  .products{background:var(--white)}
+  .tabs{position:sticky;top:72px;z-index:5;display:flex;justify-content:center;gap:8px;margin-top:36px;background:var(--blush);border-radius:99px;padding:6px;width:max-content;max-width:100%;margin-inline:auto;box-shadow:0 8px 24px -16px rgba(185,117,138,.6)}
+  .tabs button{padding:11px 24px;border-radius:99px;font-weight:700;font-size:15px;color:var(--muted);transition:.2s;white-space:nowrap}
+  .tabs button[aria-selected="true"]{background:var(--rose);color:var(--white)}
+  .panel[hidden]{display:none}
+  .panel-top{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:48px;align-items:start}
+  .gallery .main{border-radius:var(--radius);overflow:hidden;background:var(--petal)}
+  .gallery .main img{width:100%;aspect-ratio:1/1;object-fit:cover}
+  .thumbs{display:flex;gap:10px;margin-top:12px}
+  .thumbs button{width:72px;height:72px;border-radius:12px;overflow:hidden;border:2px solid transparent;opacity:.65}
+  .thumbs button[aria-pressed="true"]{border-color:var(--rose);opacity:1}
+  .thumbs img{width:100%;height:100%;object-fit:cover}
+  .info h3{font-family:var(--serif);font-size:clamp(24px,3vw,30px);line-height:1.4}
+  .info .price{display:block;margin-top:14px}
+  .info .lead{margin-top:10px}
+  .chips{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
+  .chips div{background:var(--blush);border-radius:14px;padding:14px 16px;font-size:14.5px}
+  .chips b{display:block;font-size:15.5px;margin-bottom:2px}
+  .chips span{color:var(--muted)}
+  .info .spec{margin-top:20px}
+  .info .btns{margin-top:24px}
+  .down{display:block;text-align:center;margin-top:56px;color:var(--rose);font-weight:700;font-size:14.5px}
+  .down::after{content:"";display:block;width:1px;height:40px;background:var(--rose);margin:10px auto 0;opacity:.5}
+
+  /* 상세페이지 */
+  .detail{max-width:860px;margin:24px auto 0}
+  .block{padding:72px 0;border-top:1px solid var(--line)}
+  .block:first-child{border-top:0;padding-top:32px}
+  .block-head{text-align:center;margin-bottom:40px}
+  .block-head .title{font-size:clamp(24px,3.4vw,32px)}
+  .block-head .lead{margin-top:10px}
+
+  .calc{display:grid;grid-template-columns:1fr auto 1fr auto 1.15fr;gap:12px;align-items:center}
+  .calc .box{background:var(--blush);border-radius:var(--radius);padding:26px 12px;text-align:center}
+  .calc .box small{display:block;color:var(--muted);font-size:13.5px}
+  .calc .box strong{display:block;font-family:var(--serif);font-size:clamp(26px,3.6vw,36px);margin:2px 0}
+  .calc .box.hl{background:var(--rose);color:var(--white)}
+  .calc .box.hl small{color:#FFE3E8}
+  .calc .op{font-size:26px;color:var(--rose);text-align:center}
+
+  .loss{display:grid;gap:14px}
+  .loss > div{background:var(--blush);border-radius:var(--radius);padding:24px 28px;display:grid;grid-template-columns:72px 1fr;gap:20px;align-items:center}
+  .loss .badge{width:72px;height:72px;border-radius:50%;border:2px solid var(--rose);color:var(--rose);display:grid;place-items:center;font-weight:700;font-size:16px;background:var(--white)}
+  .loss h4{font-size:17.5px;margin-bottom:4px}
+  .loss p{color:var(--muted);font-size:15px}
+  .loss p b{color:var(--rose)}
+  .save{margin-top:20px;background:var(--rose);color:var(--white);border-radius:var(--radius);padding:36px 24px;text-align:center}
+  .save h4{font-family:var(--serif);font-size:clamp(22px,3vw,28px)}
+  .save h4 span{background:var(--white);color:var(--rose);border-radius:10px;padding:0 10px;margin:0 4px}
+  .save .eq{font-weight:700;font-size:18px;margin-top:14px}
+  .save p{margin-top:10px;color:#FFEFF2;font-size:15px}
+  .note-s{text-align:center;color:var(--muted);font-size:13px;margin-top:12px}
+
+  .points{display:grid;gap:14px}
+  .point{background:var(--blush);border-radius:var(--radius);padding:26px 30px;display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:center}
+  .point .num{font-family:var(--en);font-size:44px;line-height:1;color:var(--rose)}
+  .point h4{font-size:18px;margin-bottom:4px}
+  .point p{color:var(--muted);font-size:15px}
+
+  .img-block{border-radius:var(--radius);overflow:hidden;background:var(--blush)}
+  .img-block img{width:100%}
+  .tip{margin-top:16px;background:var(--petal);border-radius:16px;padding:16px 22px;font-size:15px;color:var(--muted)}
+  .tip b{color:var(--rose);margin-right:10px}
+
+  .reco{background:var(--blush);border-radius:var(--radius);padding:12px 32px}
+  .reco ul{list-style:none;font-size:16px}
+  .reco li{padding:14px 0 14px 28px;border-bottom:1px dashed var(--line);position:relative}
+  .reco li:last-child{border-bottom:0}
+  .reco li::before{content:"✓";position:absolute;left:0;color:var(--rose);font-weight:700}
+  .notice{list-style:none;margin-top:20px;color:var(--muted);font-size:13.5px;display:grid;gap:4px}
+  .notice li::before{content:"· "}
+
+  .spec-full{background:var(--blush);border-radius:var(--radius);padding:12px 32px}
+  .spec-full th{width:110px}
+
+  .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch}
+  .flow div{background:var(--blush);border-radius:var(--radius);padding:26px 20px;text-align:center}
+  .flow small{font-family:var(--en);font-style:italic;color:var(--rose);font-size:17px}
+  .flow h4{font-size:17px;margin:4px 0}
+  .flow p{color:var(--muted);font-size:14.5px}
+  .flow .arrow{display:grid;place-items:center;color:var(--rose);font-size:22px;background:none;padding:0}
+
+  .closing{text-align:center;padding:56px 0 8px}
+  .closing .logo{height:38px;width:auto;margin:0 auto}
+  .closing p{color:var(--muted);margin-top:10px}
+
+  /* 브랜드 이야기 */
+  .story{text-align:center}
+  .story .wrap{max-width:720px}
+  .story .mark{display:block;width:72px;height:80px;margin:0 auto 18px;background:var(--mauve);-webkit-mask:url(img/logo-mark.png) center/contain no-repeat;mask:url(img/logo-mark.png) center/contain no-repeat}
+  .hero-logo{display:block;height:34px;width:auto;margin-bottom:18px}
+  .story p{color:var(--muted);margin-top:16px;font-size:16.5px}
+  .story .sign{color:var(--ink);font-family:var(--serif);font-weight:700;margin-top:26px}
+
+  @media (max-width:860px){
+    .hero .wrap,.panel-top{grid-template-columns:1fr;gap:32px}
+    .calc{grid-template-columns:1fr 1fr}
+    .calc .op{display:none}
+    .calc .box.hl{grid-column:1/-1}
+    .flow{grid-template-columns:1fr}
+    .flow .arrow{transform:rotate(90deg);height:22px}
+    .block{padding:56px 0}
+  }
+  @media (max-width:520px){
+    .tabs button{padding:10px 16px;font-size:14px}
+    .chips{grid-template-columns:1fr}
+    .loss > div,.point{grid-template-columns:1fr;gap:10px;padding:24px}
+    .loss .badge{width:60px;height:60px;font-size:15px}
+    .reco,.spec-full{padding:8px 22px}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap nav">
+    <a href="#top" class="logo-top" aria-label="핑크아카이브 홈"></a>
+    <ul>
+      <li><a href="#story">브랜드</a></li>
+      <li><a href="#products">상품</a></li>
+      <li><a href="#contact">문의</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <img class="hero-logo" src="img/logo.png" alt="Pink archive">
+        <h1>공부하는 마음을<br>가장 잘 아는 문구,<br><span class="em">핑크아카이브</span></h1>
+        <p class="intro">직접 공부하며 느낀 불편함을 기록하고, 그 기록으로 다시 만든 공부 문구예요. 시험·입시·내신을 준비하는 당신의 책상이 조금 더 편안해지도록.</p>
+        <div class="tags"><span class="tag">수능·내신</span><span class="tag">토익</span><span class="tag">공무원</span><span class="tag">편입·자격증</span></div>
+        <div class="btns">
+          <a href="#products" class="btn btn-primary">상품 보기</a>
+          <a href="https://smartstore.naver.com/pinkarchive_" target="_blank" rel="noopener" class="btn btn-ghost">스마트스토어</a>
+        </div>
+      </div>
+      <div class="hero-img"><img src="img/envelope.jpg" alt="핑크아카이브 로고가 담긴 분홍 봉투"></div>
+    </div>
+  </section>
+
+  <section class="products" id="products">
+    <div class="wrap">
+      <div class="center">
+        <p class="eyebrow">Products</p>
+        <h2 class="title">외우고, 정리하고, <span class="em">바로 테스트</span></h2>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" aria-controls="p-pad" id="t-pad">단어암기 패드</button>
+        <button role="tab" aria-selected="false" aria-controls="p-note" id="t-note">트윈링 단어노트</button>
+      </div>
+
+      <!-- ===== 단어암기 패드 ===== -->
+      <div class="panel" id="p-pad" role="tabpanel" aria-labelledby="t-pad">
+        <div class="panel-top">
+          <div class="gallery">
+            <div class="main"><img src="img/pad.png" alt="단어암기 패드"></div>
+            <div class="thumbs">
+              <button aria-pressed="true" data-src="img/pad.png"><img src="img/pad.png" alt="패드 정면"></button>
+              <button aria-pressed="false" data-src="img/pad-fold.png"><img src="img/pad-fold.png" alt="칸 접은 모습"></button>
+            </div>
+          </div>
+          <div class="info">
+            <p class="eyebrow">Word pad</p>
+            <h3>칸만 접으면 셀프 테스트,<br>단어암기 패드</h3>
+            <span class="price">5,000원<small>B5 · 100매</small></span>
+            <p class="lead">왼쪽은 암기, 오른쪽은 테스트. 한 장으로 암기부터 테스트까지 끝나요.</p>
+            <div class="chips">
+              <div><b>접으면 바로 테스트</b><span>스펠링도, 뜻도</span></div>
+              <div><b>한 장에 25단어</b><span>딱 하루 분량</span></div>
+              <div><b>떡메 제본</b><span>한 장씩 뜯어 복습</span></div>
+              <div><b>날짜·요일 기록</b><span>공부 흐름이 한눈에</span></div>
+            </div>
+            <div class="btns"><a class="btn btn-primary" href="https://smartstore.naver.com/pinkarchive_" target="_blank" rel="noopener">스마트스토어에서 구매하기</a></div>
+          </div>
+        </div>
+        <span class="down">상세 정보</span>
+
+        <div class="detail">
+          <div class="block">
+            <div class="block-head">
+              <p class="eyebrow">Check</p>
+              <h3 class="title">어제 외운 단어,<br><span class="em">오늘 몇 개나 기억하나요?</span></h3>
+              <p class="lead">외우기만 하고 테스트 없이 넘어가면<br>기억하는지 모르는 단어가 계속 쌓여요.</p>
+            </div>
+            <div class="calc">
+              <div class="box"><small>빈도</small><strong>매일</strong><small>하루 한 장씩</small></div>
+              <div class="op">×</div>
+              <div class="box"><small>규모</small><strong>25단어</strong><small>한 장 분량</small></div>
+              <div class="op">=</div>
+              <div class="box hl"><small>한 달 동안</small><strong>750단어</strong><small>확인 없이 넘어간다면?</small></div>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block-head">
+              <p class="eyebrow">Check</p>
+              <h3 class="title">외우기만 하고 넘어가면<br><span class="em">세 가지를 잃어요</span></h3>
+            </div>
+            <div class="loss">
+              <div><span class="badge">돈</span><div><h4>단어 시험 보려고 학원비를 내고 있나요?</h4><p>단어 시험은 학원·과외·스터디에서만 볼 수 있는 게 아니에요. 매일 칸을 접어서 <b>스스로 테스트</b>하면, 단어 시험 때문에 나가던 돈을 아낄 수 있어요.</p></div></div>
+              <div><span class="badge">시간</span><div><h4>새 단어 대신, 외운 단어를 또 외우는 시간</h4><p>외웠는지 확인 안 한 단어는 결국 처음부터 다시 봐야 해요. 새 단어로 나아갈 시간을, <b>이미 본 단어에 또 쓰게 돼요.</b></p></div></div>
+              <div><span class="badge">리스크</span><div><h4>시험장에서는 다시 외울 기회가 없어요</h4><p>아는 줄 알았던 단어가 시험지 앞에서 떠오르지 않으면, 그 자리에서는 <b>되돌릴 방법이 없어요.</b> 한 문제로 점수가 갈리는 시험이라면 더더욱이요.</p></div></div>
+            </div>
+            <div class="save">
+              <h4>이 손실, <span>하루 50원</span>으로 막으세요</h4>
+              <p class="eq">한 장 50원 × 30일 = 한 달 1,500원</p>
+              <p>외운 직후 칸을 접어 바로 테스트하면<br>모르는 단어를 그날 바로 찾아 다시 외울 수 있어요.</p>
+            </div>
+            <p class="note-s">* 한 장 가격은 판매가 5,000원 ÷ 100매 기준이며 배송비는 별도예요.</p>
+          </div>
+
+          <div class="block">
+            <div class="block-head">
+              <p class="eyebrow">Point</p>
+              <h3 class="title">공부가 <span class="em">쉬워지는</span> 네 가지 이유</h3>
+            </div>
+            <div class="points">
+              <div class="point"><span class="num">01</span><div><h4>칸만 접으면 바로 셀프 테스트</h4><p>word 칸을 접으면 스펠링 테스트, meaning 칸을 접으면 뜻 테스트. 따로 가릴 종이가 필요 없어요.</p></div></div>
+              <div class="point"><span class="num">02</span><div><h4>한 장에 25단어, 딱 하루 분량</h4><p>외우고 테스트하기 좋은 분량으로 부담 없이 매일 꾸준하게.</p></div></div>
+              <div class="point"><span class="num">03</span><div><h4>한 장씩 뜯어 쓰는 떡메 제본</h4><p>다 쓴 장은 뜯어서 들고 다니며 복습하고, 틀린 단어만 모아 둘 수도 있어요.</p></div></div>
+              <div class="point"><span class="num">04</span><div><h4>날짜·요일 기록</h4><p>Title과 date, 요일 표시로 언제 무엇을 공부했는지 한눈에.</p></div></div>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="img-block"><img src="img/pad-howto.png" alt="사용법 4단계: 1 왼쪽 칸에만 적기, 2 word 칸 접고 스펠링 테스트, 3 meaning 칸 접고 뜻 테스트, 4 틀린 단어만 다시" loading="lazy"></div>
+          </div>
+
+          <div class="block">
+            <div class="img-block"><img src="img/pad-layout.png" alt="속지 구성: Title, date와 요일, 왼쪽 암기 영역 25줄, 가운데 점선, 오른쪽 테스트 영역" loading="lazy"></div>
+          </div>
+
+          <div class="block">
+            <div class="block-head">
+              <p class="eyebrow">Information</p>
+              <h3 class="title">제품 <span class="em">정보</span></h3>
+            </div>
+            <div class="spec spec-full"><table>
+              <tr><th>제품명</th><td>핑크아카이브 단어암기 패드</td></tr>
+              <tr><th>사이즈</th><td>B5 (182 × 257 mm)</td></tr>
+              <tr><th>매수</th><td>100매 (단면 인쇄)</td></tr>
+              <tr><th>용지</th><td>백색 모조지 80g</td></tr>
+              <tr><th>제본</th><td>떡메 (상단 접착)</td></tr>
+              <tr><th>구성</th><td>암기 25단어 + 테스트 영역 / 1장</td></tr>
+              <tr><th>가격</th><td><b>5,000원</b></td></tr>
+            </table></div>
+          </div>
+
+          <div class="block">
+            <div class="block-head">
+              <p class="eyebrow">Recommend</p>
+              <h3 class="title">이런 분께 <span class="em">추천해요</span></h3>
+            </div>
+            <div class="reco"><ul>
+              <li>수능·내신 영단어를 매일 외워야 하는 중·고등학생</li>
+              <li>토익·공무원·편입 시험을 준비하는 수험생</li>
+              <li>스터디 없이 혼자서도 단어 시험을 보고 싶은 분</li>
+              <li>외우기만 하고 테스트는 미루게 되는 분</li>
+              <li>단어 시험을 집에서 직접 챙겨주고 싶은 학부모님</li>
+              <li>전공 용어·자격증 개념을 정리하고 싶은 분</li>
+            </ul></div>
+            <ul class="notice">
+              <li>모니터 환경에 따라 실제 색상과 차이가 있을 수 있어요.</li>
+              <li>이미지 속 손글씨는 사용 예시이며, 실제 제품은 빈 속지로 발송돼요.</li>
+              <li>상단 접착 제본으로 한 장씩 깔끔하게 뜯어 쓸 수 있어요.</li>
+            </ul>
+          </div>
+
+          <div class="closing">
+            <img class="logo" src="img/logo.png" alt="" aria-hidden="true">
+            <p>당신의 공부 기록을 응원합니다</p>
+            <div class="btns" style="justify-content:center"><a class="btn btn-primary" href="https://smartstore.naver.com/pinkarchive_" target="_blank" rel="noopener">스마트스토어에서 구매하기</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 트윈링 단어노트 ===== -->
+      <div class="panel" id="p-note" role="tabpanel" aria-labelledby="t-note" hidden>
+        <div class="panel-top">
+          <div class="gallery">
+            <div class="main"><img src="img/note.png" alt="트윈링 단어노트"></div>
+          </div>
+          <div class="info">
+            <p class="eyebrow">Word note</p>
+            <h3>끝까지 평평하게 펼쳐지는<br>트윈링 단어노트</h3>
+            <span class="price">5,000원<small>B5 · 50페이지</small></span>
+            <p class="lead">외울 단어를 모으고, 정리하고, 다시 꺼내 보는 곳.</p>
+            <div class="chips">
+              <div><b>360° 트윈링</b><span>마지막 줄까지 편하게</span></div>
+              <div><b>단어 정리 속지</b><span>단어와 뜻을 나란히</span></div>
+              <div><b>표지 기록 칸</b><span>SUBJECT · DATE · NAME</span></div>
+              <div><b>패드와 함께</b><span>쓰는 것만으로 두 번 암기</span></div>
+            </div>
+            <div class="btns"><a class="btn btn-primary" href="https://smartstore.naver.com/pinkarchive_" target="_blank" rel="noopener">스마트스토어에서 구매하기</a></div>
+          </div>
+        </div>
+        <span class="down">상세 정보</span>
+
+        <div class="detail">
+          <div class="block">
+            <div class="block-head">
+              <p class="eyebrow">Check</p>
+              <h3 class="title">단어장, 쓰다 보면<br><span class="em">이런 게 불편하지 않았나요?</span></h3>
+            </div>
+            <div class="loss">
+              <div><span class="badge">펼침</span><div><h4>가운데가 들떠서 안쪽 칸에 쓰기 힘들어요</h4><p>일반 제본 노트는 손으로 계속 눌러야 하고, 안쪽 글씨는 삐뚤어지기 쉬워요.</p></div></div>
+              <div><span class="badge">정리</span><div><h4>줄만 있는 노트라 매번 칸을 나눠야 해요</h4><p>단어와 뜻 사이에 선을 긋다 보면 정리하는 데만 시간이 걸려요.</p></div></div>
+              <div><span class="badge">관리</span><div><h4>여러 권을 쓰면 어떤 단어장인지 헷갈려요</h4><p>과목, 기간이 섞이면 필요한 단어를 다시 찾기 어려워요.</p></div></div>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block-head">
+              <p class="eyebrow">Point</p>
+              <h3 class="title">그래서 이렇게 <span class="em">바꿨어요</span></h3>
+            </div>
+            <div class="points">
+              <div class="point"><span class="num">01</span><div><h4>360° 완전히 펼쳐지는 트윈링</h4><p>가운데가 들뜨지 않아 마지막 줄까지 편하게 쓸 수 있어요. 반으로 접으면 좁은 책상에서도 한 손에 쏙.</p></div></div>
+              <div class="point"><span class="num">02</span><div><h4>단어 정리에 맞춘 속지</h4><p>단어와 뜻을 나란히 적을 수 있는 구성이라, 줄을 따로 긋지 않아도 깔끔하게 정리돼요.</p></div></div>
+              <div class="point"><span class="num">03</span><div><h4>SUBJECT · DATE · NAME 표지</h4><p>과목과 기간을 적어 두면 여러 권을 써도 헷갈리지 않아요. 영어, 한자, 전공 용어까지.</p></div></div>
+              <div class="point"><span class="num">04</span><div><h4>넉넉한 B5, 50페이지</h4><p>한 권에 한 과목, 한 시험 범위를 담기 좋은 분량이에요.</p></div></div>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block-head">
+              <p class="eyebrow">Together</p>
+              <h3 class="title">단어암기 패드와 함께 쓰면<br><span class="em">더 오래 기억해요</span></h3>
+            </div>
+            <div class="flow">
+              <div><small>Step 1</small><h4>노트에 정리</h4><p>오늘 외울 단어를 단어노트에 차곡차곡 모아요.</p></div>
+              <div class="arrow">→</div>
+              <div><small>Step 2</small><h4>패드로 테스트</h4><p>패드에 25단어를 옮겨 적고, 칸을 접어 바로 셀프 테스트.</p></div>
+              <div class="arrow">→</div>
+              <div><small>Step 3</small><h4>틀린 단어만 다시</h4><p>틀린 단어는 노트에 체크하고, 다음 날 그것만 다시 외워요.</p></div>
+            </div>
+            <p class="tip"><b>TIP</b>노트에 먼저 정리하고 패드에 옮겨 쓰면, 쓰는 것만으로 두 번 암기돼요.</p>
+          </div>
+
+          <div class="block">
+            <div class="block-head">
+              <p class="eyebrow">Information</p>
+              <h3 class="title">제품 <span class="em">정보</span></h3>
+            </div>
+            <div class="spec spec-full"><table>
+              <tr><th>제품명</th><td>핑크아카이브 트윈링 단어노트</td></tr>
+              <tr><th>사이즈</th><td>B5 (182 × 257 mm)</td></tr>
+              <tr><th>분량</th><td>50페이지 (25장)</td></tr>
+              <tr><th>제본</th><td>트윈링</td></tr>
+              <tr><th>가격</th><td><b>5,000원</b></td></tr>
+            </table></div>
+          </div>
+
+          <div class="block">
+            <div class="block-head">
+              <p class="eyebrow">Recommend</p>
+              <h3 class="title">이런 분께 <span class="em">추천해요</span></h3>
+            </div>
+            <div class="reco"><ul>
+              <li>영단어·한자·전공 용어를 한 권에 정리하고 싶은 분</li>
+              <li>시험 범위별로 단어장을 따로 만들고 싶은 수험생</li>
+              <li>단어암기 패드와 함께 하루 단어 루틴을 만들고 싶은 분</li>
+              <li>제본 노트가 들떠서 쓰기 불편했던 분</li>
+            </ul></div>
+            <ul class="notice">
+              <li>모니터 환경에 따라 실제 색상과 차이가 있을 수 있어요.</li>
+            </ul>
+          </div>
+
+          <div class="closing">
+            <img class="logo" src="img/logo.png" alt="" aria-hidden="true">
+            <p>당신의 공부 기록을 응원합니다</p>
+            <div class="btns" style="justify-content:center"><a class="btn btn-primary" href="https://smartstore.naver.com/pinkarchive_" target="_blank" rel="noopener">스마트스토어에서 구매하기</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="story" id="story">
+    <div class="wrap">
+      <span class="mark" aria-hidden="true"></span>
+      <p class="eyebrow">Brand story</p>
+      <h2 class="title">공부하는 시간이<br>조금 더 편안했으면 해서</h2>
+      <p>책상 앞에 오래 앉아 있다 보면, 작은 불편함이 생각보다 크게 느껴질 때가 있습니다. 자꾸 넘어가는 페이지, 칸이 애매한 플래너, 손에 잘 맞지 않는 도구들. 사소해 보이지만 쌓이면 집중이 흐트러지곤 하죠.</p>
+      <p>핑크아카이브는 직접 공부하며 "이 부분만 달랐다면" 싶었던 점들을 하나씩 기록하고, 그 기록을 바탕으로 디자인부터 다시 만들었습니다. 오래 써 보고, 고치고, 다시 써 본 뒤에야 세상에 내놓습니다.</p>
+      <p class="sign">당신의 공부가 기록되는 곳, 핑크아카이브.</p>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="contact-banner"><div class="contact-inner">
+      <p class="eyebrow">Contact</p>
+      <h2 class="title">핑크아카이브 만나러 가기</h2>
+      <p>구매는 스마트스토어에서, 새 소식과 문의는 인스타그램에서 만나요.</p>
+      <div class="links">
+        <a href="https://smartstore.naver.com/pinkarchive_" target="_blank" rel="noopener">스마트스토어</a>
+        <a href="https://www.instagram.com/pinkarchive_official/" target="_blank" rel="noopener">인스타그램 @pinkarchive_official</a>
+      </div>
+    </div></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img class="logo" src="img/logo.png" alt="" aria-hidden="true">
+    <p>당신의 공부 기록을 응원합니다</p>
+    <dl class="biz">
+      <div><dt>상호</dt><dd>핑크아카이브</dd></div>
+      <div><dt>대표</dt><dd>배서연</dd></div>
+      <div><dt>사업자등록번호</dt><dd>315-17-65112 <a class="bizcheck" href="https://www.ftc.go.kr/bizCommPop.do?wrkr_no=3151765112" target="_blank" rel="noopener">[사업자정보확인]</a></dd></div>
+      <div><dt>주소</dt><dd>경기도 수원시 장안구 창훈로 39번길 3 203호</dd></div>
+      <div><dt>고객센터</dt><dd><a href="tel:070-8098-8446">070-8098-8446</a></dd></div>
+    </dl>
+    <p class="copy">© 2026 Pink archive. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  // 탭 전환 (전환 시 상품 영역 맨 위로)
+  const tabs = document.querySelectorAll('[role="tab"]');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', on);
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      const box = document.querySelector('.tabs');
+      if (box.getBoundingClientRect().top <= 80) {
+        window.scrollTo({ top: document.getElementById('products').offsetTop + 40, behavior: 'smooth' });
+      }
+    });
+  });
+  // 썸네일 클릭 시 큰 사진 바꾸기
+  document.querySelectorAll('.thumbs button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const g = btn.closest('.gallery');
+      g.querySelector('.main img').src = btn.dataset.src;
+      g.querySelectorAll('.thumbs button').forEach(b => b.setAttribute('aria-pressed', b === btn));
+    });
+  });
+</script>
+</body>
+</html>
